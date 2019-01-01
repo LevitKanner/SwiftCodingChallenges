@@ -813,8 +813,8 @@ extension Collection where Iterator.Element == String {
 /*
  Create a function that accepts an array of unsorted numbers from 1 to 100 where zero or more
  numbers might be missing, and returns an array of the missing numbers.
-
-
+ 
+ 
  Sample input and output
  If your test array were created like this:
  var testArray = Array(1...100)
@@ -866,7 +866,7 @@ extension Collection where Iterator.Element == Int {
         if count % 2 == 0 {
             return Double(ordered[middle] + ordered[middle - 1]) / 2
         }else{
-           return Double(ordered[middle])
+            return Double(ordered[middle])
         }
         
     }
@@ -1078,3 +1078,57 @@ extension Collection where Iterator.Element: Comparable {
 ["q", "f", "k"].minimum()
 [4096, 256, 16].minimum()
 [String]().minimum()
+
+
+
+/*
+ Create a new data type that models a double-ended queue using generics, or deque. You should be able to push items to the front or back, pop them from the front or back, and get the number of items.
+ Tip: It’s pronounced like “deck”.
+ 
+ Sample input and output
+ Once your data structure has been created, this code should compile and run cleanly:
+ var numbers = deque<Int>()
+ numbers.pushBack(5)
+ numbers.pushBack(8)
+ numbers.pushBack(3)
+ assert(numbers.count == 3)
+ assert(numbers.popFront()! == 5)
+ assert(numbers.popBack()! == 3)
+ assert(numbers.popFront()! == 8)
+ assert(numbers.popBack() == nil)
+ */
+
+struct Deque<T> {
+    private var array = [T]()
+    
+    var count: Int {
+        array.count
+    }
+    
+    mutating func pushBack(_ element: T){
+        self.array.append(element)
+    }
+    
+    mutating func pushFront(_ element: T){
+        self.array.insert(element, at: 0)
+    }
+    mutating func popFront() -> T? {
+        guard !array.isEmpty else {return nil}
+        return self.array.removeFirst()
+    }
+    mutating func popBack() -> T? {
+        guard !array.isEmpty else {return nil}
+        return self.array.removeLast()
+    }
+}
+
+var numbers = Deque<Int>()
+numbers.pushBack(5)
+numbers.pushBack(8)
+numbers.pushBack(3)
+assert(numbers.count == 3)
+assert(numbers.popFront()! == 5)
+assert(numbers.popBack()! == 3)
+assert(numbers.popFront()! == 8)
+assert(numbers.popBack() == nil)
+
