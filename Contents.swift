@@ -877,3 +877,75 @@ extension Collection where Iterator.Element == Int {
 [1, 2, 3, 4].median()
 [Int]().median()
 
+
+
+
+
+/*
+ Finding the mode average on a collection of integers
+ */
+
+extension Collection where Iterator.Element == Int {
+    func mode() -> [Int]{
+        guard  !self.isEmpty else { return  [ ] }
+        let ordered = sorted()
+        
+        var pairs = [(Int, Int)]()
+        var highestCount = 0
+        var count = 0
+        var value = ordered.first!
+        
+        for number in ordered {
+            guard value == number else {
+                pairs.append((value , count))
+                
+                highestCount = count > highestCount ? count : highestCount   ///Gets the modal count of the mode
+                
+                value = number
+                count = 1
+                continue
+            }
+            count += 1
+        }
+        pairs.append((value , count))
+        
+        var mode = [Int]()
+        
+        pairs.forEach {
+            if $0.1 == highestCount{
+                mode.append($0.0)
+            }
+        }
+        return mode
+    }
+}
+[1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 9].mode()
+
+
+
+
+
+/*
+ Write an extension for all collections that reimplements the firstIndex(of:) method.
+ Tip: This is one of the easiest standard library methods to reimplement, so please give it an especially good try before reading any hints.
+ 
+ Sample input and output
+ • The code [1, 2, 3].challenge42(firstIndexOf: 1) should return 0.
+ • The code [1, 2, 3].challenge42(firstIndexOf: 3) should return 2.
+ • The code [1, 2, 3].challenge42(firstIndexOf: 5) should return nil.
+ */
+extension Collection where Iterator.Element: Equatable {
+    func indexFor(element: Element) -> Int? {
+        guard self.contains(element) else { return nil }
+        
+        for (index , value) in enumerated(){
+            if value == element {
+                return index
+            }
+        }
+        return nil
+    }
+}
+[1, 2, 3].indexFor(element: 1)
+[1, 2, 3].indexFor(element: 3)
+[1, 2, 3].indexFor(element: 5)
