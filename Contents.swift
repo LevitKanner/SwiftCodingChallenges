@@ -1040,7 +1040,6 @@ list.centerPoint
  • The code [1, 2, 3].challenge46 { String($0) } should return [“1”, "2", "3"]
  • The code ["1", "2", "3"].challenge46 { Int($0)! } should return [1, 2, 3].
  */
-
 extension Collection {
     func mapElements<T>(_ closure : (Element) throws -> T ) rethrows -> [T]{
         var returnValue : [T] = [ ]
@@ -1057,3 +1056,25 @@ extension Collection {
 [2 , 3 , 5].mapElements {String($0)}
 ["1", "2" , "3"].mapElements {Int($0)!}
 
+
+
+
+/*
+ Write an extension for all collections that reimplements the min() method.
+ 
+ Sample input and output
+ • The code [1, 2, 3].challenge47() should return 1.
+ • The code ["q", "f", "k"].challenge47() should return “f”.
+ • The code [4096, 256, 16].challenge47() should return 16.
+ • The code [String]().challenge47() should return nil.
+ */
+extension Collection where Iterator.Element: Comparable {
+    func minimum() -> Element? {
+        guard !self.isEmpty else { return nil}
+        return sorted().first!
+    }
+}
+[1, 2, 3].minimum()
+["q", "f", "k"].minimum()
+[4096, 256, 16].minimum()
+[String]().minimum()
