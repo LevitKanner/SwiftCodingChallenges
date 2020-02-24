@@ -4,7 +4,7 @@ import UIKit
  Write a function that accepts a String as its only parameter, and returns true if the string has
  only unique letters, taking letter case into account.
  
-  Sample input and output
+ Sample input and output
  • The string “No duplicates” should return true.
  • The string “abcdefghijklmnopqrstuvwxyz” should return true.
  • The string “AaBbCc” should return true because the challenge is case-sensitive.
@@ -151,3 +151,47 @@ func removeDuplicates(from: String) -> String {
 removeDuplicates(from: "wombat")
 removeDuplicates(from: "Mississippi")
 removeDuplicates(from: "hello")
+
+
+
+/*
+ Write a function that returns a string with any consecutive spaces replaced with a single space.
+ 
+ 
+ Sample input and output
+ I’ve marked spaces using “[space]” below for visual purposes:
+ • The string “a[space][space][space]b[space][space][space]c” should return “a[space]b[space]c”.
+ • The string “[space][space][space][space]a” should return “[space]a”.
+ • The string “abc” should return “abc”.
+ */
+
+func condenseWhiteSpace(in input: String) -> String {
+    return input.replacingOccurrences(of: " +", with: " ", options: .regularExpression)
+}
+condenseWhiteSpace(in: "a   b   c")
+condenseWhiteSpace(in: "    a")
+condenseWhiteSpace(in: "abc")
+
+//Second Function for condensing white spaces
+func condense(input: String) -> String {
+    
+    var letters = [Character]()
+    var isSpace = false
+    
+    for letter in input {
+        
+        if letter == " " && isSpace == false {
+            letters.append(letter)
+            isSpace = true
+        }
+        
+        if letter != " " {
+            letters.append(letter)
+            isSpace = false
+        }
+    }
+    return String(letters)
+}
+condense(input: "a   b   c")
+condenseWhiteSpace(in: "    a")
+condense(input: "abc")
