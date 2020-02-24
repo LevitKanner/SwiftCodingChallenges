@@ -246,3 +246,25 @@ func isPangram(input: String) -> Bool {
 isPangram(input: "The quick brown fox jumps over the lazy dog")
 isPangram(input: "The quick brown fox jumped over the lazy dog")
 
+
+/*
+ Given a string in English, return a tuple containing the number of vowels and consonants.
+ Tip: Vowels are the letters, A, E, I, O, and U; consonants are the letters B, C, D, F, G, H, J, K, L, M, N, P, Q, R, S, T, V, W, X, Y, Z.
+ 
+ Sample input and output
+ • The input “Swift Coding Challenges” should return 6 vowels and 15 consonants.
+ • The input “Mississippi” should return 4 vowels and 7 consonants.
+ */
+
+func vowelsAndConsonants(in input: String) -> (Int , Int) {
+    let vowels = "aeiou" , consonants = "bcdfghjklmnpqrstvwxyz"
+    let vowelArray = input.filter {
+        vowels.contains($0.lowercased())
+    }
+    let consonantsArray = input.filter {
+        consonants.contains($0.lowercased())
+    }
+    return (vowels: vowelArray.count , consonants: consonantsArray.count)
+}
+vowelsAndConsonants(in: "Swift Coding Challenges")
+vowelsAndConsonants(in: "Mississippi")
