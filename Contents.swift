@@ -83,6 +83,8 @@ containsSameLetter(first: "abc", second: "cbAa")
 containsSameLetter(first: "abcc", second: "abca")
 
 
+
+
 /*
  Write your own version of the contains() method on String that ignores letter case, and
  without using the existing contains() method.
@@ -102,3 +104,50 @@ extension String {
 "Hello world".fuzzyContains("WORLD")
 "Hello world".fuzzyContains("Goodbye")
 
+
+
+
+/*
+ Write a function that accepts a string, and returns how many times a specific character appears,
+ taking case into account.
+ 
+ Sample input and output
+ • The letter “a” appears twice in “The rain in Spain”.
+ • The letter “i” appears four times in “Mississippi”.
+ • The letter “i” appears three times in “Hacking with Swift”.
+ */
+
+func count(of letter: Character , in input: String) -> Int {
+    let letters = input.filter { $0 == letter }
+    return letters.count
+}
+count(of: "a", in: "he rain in Spain")
+count(of: "i", in: "Mississippi")
+count(of: "i", in: "Hacking with Swift")
+
+
+
+/*
+ Write a function that accepts a string as its input, and returns the same string just with
+ duplicate letters removed.
+ Tip: If you can solve this challenge without a for-in loop, you can consider it “tricky” rather than “easy”.
+ 
+ Sample input and output
+ • The string “wombat” should print “wombat”.
+ • The string “hello” should print “helo”.
+ • The string “Mississippi” should print “Misp”
+ */
+
+func removeDuplicates(from: String) -> String {
+    var word = [Character]()
+    
+    from.forEach {
+        if !word.contains($0) {
+            word.append($0)
+        }
+    }
+    return String(word)
+}
+removeDuplicates(from: "wombat")
+removeDuplicates(from: "Mississippi")
+removeDuplicates(from: "hello")
