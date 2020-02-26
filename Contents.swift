@@ -470,9 +470,29 @@ randomNumber(between: 11, and: 20)
  */
 
 func mypow(_ number: Int ,power: Int) -> Int {
+    guard number > 0 && power > 0 else {
+        return 0
+    }
     return Array(repeating: number, count: power).reduce(1) { $0 * $1 }
 }
 mypow(5, power: 5)
 mypow(2, power: 3)
 mypow(2, power: 8)
 mypow(4, power: 3)
+
+
+
+
+/*
+ Swap two positive variable integers, a and b, without using a temporary variable.
+ 
+ Sample input and output
+ • Before running your code a should be 1 and b should be 2; afterwards, b should be 1 and a should be 2.
+ */
+
+func numberSwap(firstNumber: Int , secondNumber: Int) -> (Int , Int){
+    let (first , second) = (firstNumber, secondNumber)
+    return (first , second)
+}
+numberSwap(firstNumber: 8, secondNumber: 10)
+
