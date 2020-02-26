@@ -331,11 +331,11 @@ func longestPrefix(input: String) -> String {
     for character in firstWord {
         prefix.append(character)
         
-        if components.allSatisfy({$0.hasPrefix(prefix)}){
-            longestPrefix = prefix
-        }else {
+        if !components.allSatisfy({$0.hasPrefix(prefix)}){
             return longestPrefix
         }
+        
+        longestPrefix = prefix
         
     }
     
@@ -344,3 +344,41 @@ func longestPrefix(input: String) -> String {
 
 longestPrefix(input: "swift switch swill swim")
 longestPrefix(input: "flip flap flop")
+
+
+/*
+ Write a function that accepts a string as input, then returns how often each letter is repeated in
+ a single run, taking case into account.
+ Tip: This approach is used in a simple lossless compression technique called run-length encoding.
+ 
+ Sample input and output
+ • The string “aabbcc” should return “a2b2c2”.
+ • The strings “aaabaaabaaa” should return “a3b1a3b1a3”
+ • The string “aaAAaa” should return “a2A2a2”
+ */
+
+func runLength(input: String) -> String {
+    var currentLetter = ""
+    var count = 0
+    var returnString = ""
+  
+    
+    guard let first = input.first else { return returnString }
+    currentLetter = String(first)
+    
+    for letter in input {
+        if String(letter) == currentLetter {
+            count += 1
+        }else {
+            returnString.append("\(currentLetter)\(count)")
+            currentLetter = String(letter)
+            count = 1
+        }
+    }
+    returnString.append("\(currentLetter)\(count)")
+    return returnString
+}
+
+runLength(input: "aabbcc")
+runLength(input: "aaabaaabaaa")
+runLength(input: "aaAAaa")
