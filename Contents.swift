@@ -404,3 +404,37 @@ func reversed(input: String) -> String{
 }
 reversed(input: "Swift Coding Challenges")
 reversed(input: "The quick brown fox")
+
+
+
+
+
+
+
+//Chapter 2 : Numbers
+/*
+ Write a function that counts from 1 through 100, and prints “Fizz” if the counter is evenly divisible by 3, “Buzz” if it’s evenly divisible by 5, “Fizz Buzz” if it’s even divisible by three and five, or the counter number for all other cases.
+ 
+ Sample input and output
+ • 1 should print “1”
+ • 2 should print “2”
+ • 3 should print “Fizz”
+ • 4 should print “4”
+ • 5 should print “Buzz”
+ • 15 should print “Fizz Buzz”
+ */
+
+func fizzBuzz(){
+    (1...100).forEach {
+        if $0 % 5 == 0 && $0 % 3 == 0 {
+            print("Fizz Buzz")
+        }else if $0 % 3 == 0 {
+            print("Fizz")
+        }else if $0 % 5 == 0 {
+            print("Buzz")
+        }else {
+            print(String($0))
+        }
+    }
+}
+fizzBuzz()
