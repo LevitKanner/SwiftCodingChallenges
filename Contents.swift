@@ -285,7 +285,7 @@ vowelsAndConsonants(in: "Mississippi")
  • The strings “Clamp” and “Clam” would return false, because they are different lengths.
  • The strings “clamp” and “maple” should return false. Although they differ by only one
  letter, the letters that match are in different positions.
-
+ 
  */
 
 func threeLetters(first: String , second: String) -> Bool {
@@ -309,3 +309,38 @@ threeLetters(first: "Clamp", second: "Grans")
 threeLetters(first: "Clamp", second: "Clam")
 threeLetters(first: "clamp", second: "maple")
 
+
+
+/*
+ Write a function that accepts a string of words with a similar prefix, separated by spaces, and
+ returns the longest substring that prefixes all words.
+ 
+ Sample input and output
+ • The string “swift switch swill swim” should return “swi”.
+ • The string “flip flap flop” should return “fl”.
+ */
+func longestPrefix(input: String) -> String {
+    let components = input.components(separatedBy: " ")
+    var prefix = ""
+    var longestPrefix = ""
+    
+    guard let firstWord = components.first else {
+        return longestPrefix
+    }
+    
+    for character in firstWord {
+        prefix.append(character)
+        
+        if components.allSatisfy({$0.hasPrefix(prefix)}){
+            longestPrefix = prefix
+        }else {
+            return longestPrefix
+        }
+        
+    }
+    
+    return longestPrefix
+}
+
+longestPrefix(input: "swift switch swill swim")
+longestPrefix(input: "flip flap flop")
