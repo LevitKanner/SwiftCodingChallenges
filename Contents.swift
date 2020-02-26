@@ -361,7 +361,7 @@ func runLength(input: String) -> String {
     var currentLetter = ""
     var count = 0
     var returnString = ""
-  
+    
     
     guard let first = input.first else { return returnString }
     currentLetter = String(first)
@@ -382,3 +382,25 @@ func runLength(input: String) -> String {
 runLength(input: "aabbcc")
 runLength(input: "aaabaaabaaa")
 runLength(input: "aaAAaa")
+
+
+
+/*
+ Write a function that returns a string with each of its words reversed but in the original order,
+ without using a loop.
+ 
+ Sample input and output
+ • The string “Swift Coding Challenges” should return “tfiwS gnidoC segnellahC”.
+ • The string “The quick brown fox” should return “ehT kciuq nworb xof”.
+ */
+func reversed(input: String) -> String{
+    let components = input.components(separatedBy: " ")
+    var returnString = ""
+    
+    components.forEach {
+        returnString.append("\(String($0.reversed())) ")
+    }
+    return returnString
+}
+reversed(input: "Swift Coding Challenges")
+reversed(input: "The quick brown fox")
