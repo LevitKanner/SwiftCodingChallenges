@@ -454,4 +454,25 @@ func randomNumber(between: Int , and: Int) -> Int {
     let array = [between , and].sorted()
     return (array[0]...array[1]).randomElement()!
 }
-randomNumber(between: -1, and: -4)
+randomNumber(between: 11, and: 20)
+
+
+
+/*
+ Create a function that accepts positive two integers, and raises the first to the power of the
+ second.
+ Tip: If you name your function myPow() or challenge18(), you’ll be able to use the built-in
+ pow() for your tests. The built-in pow() uses doubles, so you’ll need to typecast.
+ 
+ Sample input and output
+ • The inputs 4 and 3 should return 64, i.e. 4 multiplied by itself 3 times.
+ • The inputs 2 and 8 should return 256, i.e. 2 multiplied by itself 8 times.
+ */
+
+func mypow(_ number: Int ,power: Int) -> Int {
+    return Array(repeating: number, count: power).reduce(1) { $0 * $1 }
+}
+mypow(5, power: 5)
+mypow(2, power: 3)
+mypow(2, power: 8)
+mypow(4, power: 3)
