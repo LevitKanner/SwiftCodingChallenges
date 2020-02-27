@@ -526,3 +526,73 @@ isPrime(number: 4)
 isPrime(number: 9)
 isPrime(number: 16777259)
 
+
+/*
+ Create a function that accepts any positive integer and returns the next highest and next lowest number that has the same number of ones in its binary representation. If either number is not possible, return nil for it.
+ 
+ Sample input and output
+ • The number 12 is 1100 in binary, so it has two 1s. The next highest number with that many 1s is 17, which is 10001. The next lowest is 10, which is 1010.
+ • The number 28 is 11100 in binary, so it has three 1s. The next highest number with that many 1s is 35, which is 100011. The next lowest is 26, which is 11010.
+ */
+
+func sameOnes(number: Int) -> (nextHighest: Int? , nextLowest: Int?) {
+    let binary = String(number, radix: 2, uppercase: false)
+    let ones = binary.filter {$0 == "1"}.count
+    var highest: Int? = nil
+    var lowest: Int? = nil
+    
+    for i in number + 1 ... Int.max {
+        let currentBinary = String(i , radix: 2)
+        let onesCount = currentBinary.filter { $0 == "1"}.count
+        if onesCount == ones {
+            highest = i
+            break
+        }
+    }
+    
+    for i in stride(from: number - 1, to: 0, by: -1){
+        let currentBinary = String(i , radix: 2)
+        let onesCount = currentBinary.filter { $0 == "1"}.count
+        if onesCount == ones {
+            lowest = i
+            break
+        }
+    }
+    
+    return (highest , lowest)
+   
+}
+sameOnes(number: 12)
+sameOnes(number: 28)
+
+
+
+/*
+ Create a function that accepts an unsigned 8-bit integer and returns its binary reverse, padded
+ so that it holds precisely eight binary digits.
+ Tip: When you get the binary representation of a number, Swift will always use as few bits as possible – make sure you pad to eight binary digits before reversing.
+ 
+ Sample input and output
+ • The number 32 is 100000 in binary, and padded to eight binary digits that’s 00100000. Reversing that binary sequence gives 00000100, which is 4. So, when given the input 32 your function should return 4.
+ • The number 41 is 101001 in binary, and padded to eight binary digits that 00101001. Reversing that binary sequence gives 10010100, which is 148. So, when given the input 41 your function should return 148.
+ • It should go without saying that your function should be symmetrical: when fed 4 it should return 32, and when fed 148 it should return 41.
+ */
+func binaryReversed(input: Int) -> Int {
+    let binary = String(input , radix: 2)
+    let count = binary.count
+    var eightBits = binary
+    
+    if count < 8 {
+        let zeros = String( Array(repeating: "0", count: 8 - count))
+        eightBits = zeros + binary
+    }
+    
+    let reversed = String(eightBits.reversed())
+    
+    return Int(reversed ,radix: 2)!
+}
+binaryReversed(input: 32)
+binaryReversed(input: 41)
+binaryReversed(input: 4)
+binaryReversed(input: 148)
+
