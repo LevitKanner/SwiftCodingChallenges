@@ -617,3 +617,34 @@ containsNumbersOnly(input: "01010101")
 containsNumbersOnly(input: "123456789")
 containsNumbersOnly(input: "9223372036854775808")
 containsNumbersOnly(input: "1.01")
+
+
+
+/*
+ Given a string that contains both letters and numbers, write a function that pulls out all the
+ numbers then returns their sum.
+ 
+ Sample input and output
+ • The string “a1b2c3” should return 6 (1 + 2 + 3).
+ • The string “a10b20c30” should return 60 (10 + 20 + 30).
+ • The string “h8ers” should return “8”.
+ */
+
+func sumNumbersOnly(input: String) -> Int {
+    var numbers = [Int]()
+    var strings = "0"
+    
+    for letter in input{
+        if ("0"..."9") ~= letter {
+            strings.append("\(letter)")
+        }else {
+            numbers.append(Int(strings)!)
+            strings = "0"
+        }
+    }
+    numbers.append(Int(strings)!)
+    return numbers.reduce(0) { $0 + $1 }
+}
+sumNumbersOnly(input: "a1b2c3")
+sumNumbersOnly(input: "a10b20c30")
+sumNumbersOnly(input: "h8ers")
