@@ -685,3 +685,28 @@ mysqrt(input: 16)
 mysqrt(input: 15)
 mysqrt(input: 9)
 mysqrt(input: 16777216)
+
+
+
+/*
+ Create a function that subtracts one positive integer from another, without using -.
+ 
+ Sample input and output
+ • The code challenge26(subtract: 5, from: 9) should return 4.
+ • The code challenge26(subtract: 10, from: 30) should return 20.
+ */
+
+func subtract(_ number: Int , from: Int) -> Int {
+    return (number..<from).count
+}
+
+///or using the bitwise Not operator
+func challenge26(_ number: Int , from: Int) -> Int {
+    return from + (~number + 1)
+}
+subtract(5, from: 9)
+subtract(10, from: 30)
+subtract(1, from: 100)
+challenge26(5, from: 9)
+challenge26(10, from: 30)
+challenge26(1, from: 100)
