@@ -583,7 +583,7 @@ func binaryReversed(input: Int) -> Int {
     var eightBits = binary
     
     if count < 8 {
-        let zeros = String( Array(repeating: "0", count: 8 - count))
+        let zeros = String(repeating: "0", count: 8 - count)
         eightBits = zeros + binary
     }
     
@@ -596,3 +596,24 @@ binaryReversed(input: 41)
 binaryReversed(input: 4)
 binaryReversed(input: 148)
 
+
+
+/*
+ Write a function that accepts a string and returns true if it contains only numbers, i.e. the digits
+ 0 through 9.
+ 
+ Sample input and output
+ • The input “01010101” should return true.
+ • The input “123456789” should return true.
+ • The letter “9223372036854775808” should return true.
+ • The letter “1.01” should return false; “.” is not a number.
+ */
+ 
+func containsNumbersOnly(input: String) -> Bool {
+    return input.allSatisfy {("0"..."9") ~= $0}
+}
+
+containsNumbersOnly(input: "01010101")
+containsNumbersOnly(input: "123456789")
+containsNumbersOnly(input: "9223372036854775808")
+containsNumbersOnly(input: "1.01")
