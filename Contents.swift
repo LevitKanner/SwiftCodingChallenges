@@ -560,7 +560,7 @@ func sameOnes(number: Int) -> (nextHighest: Int? , nextLowest: Int?) {
     }
     
     return (highest , lowest)
-   
+    
 }
 sameOnes(number: 12)
 sameOnes(number: 28)
@@ -608,7 +608,7 @@ binaryReversed(input: 148)
  • The letter “9223372036854775808” should return true.
  • The letter “1.01” should return false; “.” is not a number.
  */
- 
+
 func containsNumbersOnly(input: String) -> Bool {
     return input.allSatisfy {("0"..."9") ~= $0}
 }
@@ -648,3 +648,40 @@ func sumNumbersOnly(input: String) -> Int {
 sumNumbersOnly(input: "a1b2c3")
 sumNumbersOnly(input: "a10b20c30")
 sumNumbersOnly(input: "h8ers")
+
+
+
+/*
+ Write a function that returns the square root of a positive integer, rounded down to the nearest
+ integer, without using sqrt().
+ 
+ Sample input and output
+ • The number 9 should return 3.
+ • The number 16777216 should return 4096.
+ • The number 16 should return 4.
+ • The number 15 should return 3.
+ */
+
+func mysqrt(input: Int) -> Int {
+    guard input > 1 else { return 1 }
+    var lowerbound = 0
+    var upperbound = input / 2
+    
+    while lowerbound + 1 < upperbound {
+        let middle = lowerbound + (upperbound - lowerbound)/2
+        
+        if middle * middle == input {
+            return middle
+        }else if middle * middle > input{
+            upperbound = middle
+        }else {
+            lowerbound = middle
+        }
+    }
+    return lowerbound
+}
+
+mysqrt(input: 16)
+mysqrt(input: 15)
+mysqrt(input: 9)
+mysqrt(input: 16777216)
