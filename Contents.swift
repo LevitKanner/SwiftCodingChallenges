@@ -716,3 +716,93 @@ challenge26(1, from: 100)
 
 //Chapter 3 (FILES)
 
+
+
+
+
+
+
+
+//Chapter 4 (COLLECTIONS)
+
+/*
+ Write an extension for collections of integers that returns the number of times a specific digit
+ appears in any of its numbers.
+ 
+ Sample input and output
+ • The code [5, 15, 55, 515].challenge37(count: "5") should return 6.
+ • The code [5, 15, 55, 515].challenge37(count: "1") should return 2.
+ • The code [55555].challenge37(count: "5") should return 5.
+ • The code [55555].challenge37(count: "1") should return 0.
+ */
+
+extension Collection where Self == [Int] {
+    func count(of: Int) -> Int {
+        let number = String(of)
+        var count = 0
+        
+        for value in self {
+            let string = String(value)
+            guard string.contains(number) else {continue}
+            
+            count += string.filter({"\($0)" == number}).count
+        }
+        
+        return count
+    }
+}
+[5, 15, 55, 515].count(of: 5)
+[5, 15, 55, 515].count(of: 1)
+[55555].count(of: 5)
+[55555].count(of: 1)
+
+
+
+
+
+
+/*
+ Write an extension for all collections that returns the N smallest elements as an array, sorted
+ smallest first, where N is an integer parameter.
+ 
+ Sample input and output
+ • The code [1, 2, 3, 4].challenge38(count: 3) should return [1, 2, 3].
+ • The code ["q", "f", "k"].challenge38(count: 10) should return [“f”, “k”, “q”].
+ • The code [256, 16].challenge38(count: 3) should return [16, 256].
+ • The code [String]().challenge38(count: 3) should return an empty array.
+ */
+
+extension Collection where Iterator.Element: Comparable {
+    
+    func nSmallest(count: Int) -> [Element]{
+        return Array(self.sorted().prefix(count))
+    }
+}
+[1, 2, 3, 4].nSmallest(count: 3)
+["q", "f", "k"].nSmallest(count: 10)
+[256, 16].nSmallest(count: 3)
+[String]().nSmallest(count: 3)
+
+
+
+
+
+/*
+ Extend collections with a function that returns an array of strings sorted by their lengths,
+ longest first.
+ 
+ Sample input and output
+ • The code ["a", "abc", "ab"].challenge39() should return ["abc", "ab", "a"].
+ • The code ["paul", "taylor", "adele"].challenge39() should return ["taylor", "adele",
+ "paul"].
+ • The code [String]().challenge39() should return [].
+ */
+
+extension Collection where Iterator.Element == String {
+    func longestFirst() -> [Element]{
+        return self.sorted { $0.count > $1.count }
+    }
+}
+["a", "abc", "ab"].longestFirst()
+["paul", "taylor", "adele"].longestFirst()
+[String]().longestFirst()
