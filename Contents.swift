@@ -837,3 +837,43 @@ testArray.remove(at: 20)
 testArray.remove(at: 6)
 
 findMissing(input: testArray)
+findMissing(input: [1, 2, 3, 4])
+findMissing(input: [5, 15, 55, 515])
+
+
+
+/*
+ Write an extension to collections that accepts an array of Int and returns the median average,
+ or nil if there are no values.
+ Tip: The mean average is the sum of some numbers divided by how many there are. The median average is the middle of a sorted list. If there is no single middle value – e.g. if there are eight numbers - then the median is the mean of the two middle values.
+ 
+ Sample input and output
+ • The code [1, 2, 3].challenge41() should return 2.
+ • The code [1, 2, 9].challenge41() should return 2.
+ • The code [1, 3, 5, 7, 9].challenge41() should return 5.
+ • The code [1, 2, 3, 4].challenge41() should return 2.5.
+ • The code [Int]().challenge41() should return nil.
+ */
+
+extension Collection where Iterator.Element == Int {
+    
+    func median() -> Double? {
+        guard !self.isEmpty else {return nil}
+        let ordered = sorted()
+        let count = self.count
+        let middle: Int = (count / 2)
+        
+        if count % 2 == 0 {
+            return Double(ordered[middle] + ordered[middle - 1]) / 2
+        }else{
+           return Double(ordered[middle])
+        }
+        
+    }
+}
+[1, 2, 3].median()
+[1, 2, 9].median()
+[1, 3, 5, 7, 9].median()
+[1, 2, 3, 4].median()
+[Int]().median()
+
