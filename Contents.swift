@@ -806,3 +806,34 @@ extension Collection where Iterator.Element == String {
 ["a", "abc", "ab"].longestFirst()
 ["paul", "taylor", "adele"].longestFirst()
 [String]().longestFirst()
+
+
+
+
+/*
+ Create a function that accepts an array of unsorted numbers from 1 to 100 where zero or more
+ numbers might be missing, and returns an array of the missing numbers.
+
+
+ Sample input and output
+ If your test array were created like this:
+ var testArray = Array(1...100)
+ testArray.remove(at: 25)
+ testArray.remove(at: 20)
+ testArray.remove(at: 6)
+ Then your method should [7, 21, 26], because those are the numbers missing from the array.
+ */
+func findMissing(input: [Int]) -> [Int]{
+    let sorted = input.sorted()
+    let count = sorted.count
+    let original = Array(sorted[0]...sorted[count - 1])
+    
+    return  Array(Set(original).subtracting(sorted))
+}
+
+var testArray = Array(1...100)
+testArray.remove(at: 25)
+testArray.remove(at: 20)
+testArray.remove(at: 6)
+
+findMissing(input: testArray)
