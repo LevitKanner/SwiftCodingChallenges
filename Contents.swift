@@ -1132,3 +1132,27 @@ assert(numbers.popBack()! == 3)
 assert(numbers.popFront()! == 8)
 assert(numbers.popBack() == nil)
 
+
+
+
+/*
+ Write a function that accepts a variadic array of integers and return the sum of all numbers that
+ appear an even number of times.
+ 
+ Sample input and output
+ • The code challenge49(1, 2, 2, 3, 3, 4) should return 5, because the numbers 2 and 3 appear twice each.
+ • The code challenge49(5, 5, 5, 12, 12) should return 12, because that’s the only number that appears an even number of times.
+ • The code challenge49(1, 1, 2, 2, 3, 3, 4, 4) should return 10.
+ */
+func sumEven(numbers: Int...) -> Int {
+    var dictionary = [Int: Int]()
+    
+    numbers.forEach {
+        dictionary[$0 , default: 0] += 1
+    }
+    
+    return dictionary.filter { $1 % 2 == 0 }.map {$0.key}.reduce(0) { $0 + $1 }
+}
+sumEven(numbers: 1, 2 , 2, 3, 3, 4)
+sumEven(numbers: 5, 5, 5, 12, 12)
+sumEven(numbers: 1, 1, 2, 2, 3, 3, 4, 4)
