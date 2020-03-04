@@ -1031,3 +1031,29 @@ extension LinkedList {
     }
 }
 list.centerPoint
+
+
+/*
+ Write an extension for all collections that reimplements the map() method.
+ 
+ Sample input and output
+ • The code [1, 2, 3].challenge46 { String($0) } should return [“1”, "2", "3"]
+ • The code ["1", "2", "3"].challenge46 { Int($0)! } should return [1, 2, 3].
+ */
+
+extension Collection {
+    func mapElements<T>(_ closure : (Element) throws -> T ) rethrows -> [T]{
+        var returnValue : [T] = [ ]
+        
+        for item in self {
+            let transformed = try closure(item)
+            returnValue.append(transformed)
+        }
+        
+        return returnValue
+    }
+}
+
+[2 , 3 , 5].mapElements {String($0)}
+["1", "2" , "3"].mapElements {Int($0)!}
+
