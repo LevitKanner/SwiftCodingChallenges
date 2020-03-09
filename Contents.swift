@@ -966,14 +966,18 @@ extension Collection where Iterator.Element: Equatable {
 class LinkedListNode<T> {
     var value: T
     var next: LinkedListNode?
+    var hashValue: Int
     
-    init(value: T) {
+    init(hashValue: Int ,value: T) {
         self.value = value
+        self.hashValue = hashValue
     }
+    
 }
 
 //Creates a list class with the method to print nodes
 class LinkedList<T> {
+    private var unique = 0
     var start: LinkedListNode<T>?
     
     //Print method
@@ -985,6 +989,11 @@ class LinkedList<T> {
             currentNode = node.next
         }
     }
+    
+    func getUniqueId() -> Int {
+        unique += 1
+        return unique
+    }
 }
 
 
@@ -993,7 +1002,7 @@ let list = LinkedList<Character>()
 var previousNode: LinkedListNode<Character>? = nil
 
 for letter in "abcdefghijklmnopqrstuvwxyz" {
-    let node = LinkedListNode(value: letter)
+    let node = LinkedListNode(hashValue: list.getUniqueId(), value: letter)
     
     if let predecessor = previousNode {
         predecessor.next = node
@@ -1156,3 +1165,54 @@ func sumEven(numbers: Int...) -> Int {
 sumEven(numbers: 1, 2 , 2, 3, 3, 4)
 sumEven(numbers: 5, 5, 5, 12, 12)
 sumEven(numbers: 1, 1, 2, 2, 3, 3, 4, 4)
+
+
+
+
+
+/*
+ Write one function that sums an array of numbers. The array might contain all integers, all
+ doubles, or all floats.
+ 
+ Sample input and output
+ • The code challenge52(numbers: [1, 2, 3]) should return 6.
+ • The code challenge52(numbers: [1.0, 2.0, 3.0]) should return 6.0.
+ • The code challenge52(numbers: Array<Float>([1.0, 2.0, 3.0])) should return 6.0.
+ */
+
+func sumUP<T: Numeric>(input: [T]) -> T {
+    return input.reduce(0, +)
+}
+sumUP(input: [1, 2, 3])
+sumUP(input: [1.0, 2.0, 3.0])
+sumUP(input: Array<Float>([1.0, 2.0, 3.0]))
+
+
+/*
+ Someone used the linked list you made previously, but they accidentally made one of the items link back to an earlier part of the list. As a result, the list can’t be traversed properly because it loops infinitely.
+ Your job is to write a method for your linked list that returns the node at the start of its loop, i.e. the one that is linked back to.
+ */
+extension LinkedList{
+    func findNode() -> LinkedListNode<T>? {
+        var current = start
+        var seen = Set<LinkedListNode<T>>()
+        
+        while let node = current {
+            if seen.contains(node){
+                return node
+            }else {
+                seen.insert(node)
+                current = node.next
+            }
+        }
+        return nil
+    }
+}
+
+extension LinkedListNode: Hashable {
+    static func == (lhs: LinkedListNode<T>, rhs: LinkedListNode<T>) -> Bool {
+        lhs.hashValue == rhs.hashValue
+    }
+    
+    
+}
