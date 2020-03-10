@@ -1213,6 +1213,90 @@ extension LinkedListNode: Hashable {
     static func == (lhs: LinkedListNode<T>, rhs: LinkedListNode<T>) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
-    
-    
 }
+
+
+
+/*
+ Create a binary search tree data structure that can be initialized from an unordered array of
+ comparable values, then write a method that returns whether the tree is balanced.
+ */
+
+class Node<T> {
+    var value: T
+    var rightNode: Node?
+    var leftNode: Node?
+    
+    init(value: T) {
+        self.value = value
+    }
+}
+
+class Tree<T: Comparable>: CustomStringConvertible{
+    
+    var description: String{
+        guard root != nil else { return "Tree is Empty"}
+        var queue = [Node<T>]()
+        queue.append(root!)
+        
+        var output = ""
+        
+        while queue.count > 0 {
+            var nodesAtCurrentLevel = queue.count
+            
+            while nodesAtCurrentLevel > 0 {
+                
+               let node = queue.removeFirst()
+                output += "\(node.value)"
+                
+                if node.leftNode != nil { queue.append(node.leftNode!)}
+                if node.rightNode != nil {queue.append(node.rightNode!)}
+                
+                nodesAtCurrentLevel -= 1
+            }
+            output += "\n"
+        }
+        return output
+    }
+    
+    
+    var root: Node<T>?
+    
+    
+    init(array: [T]) {
+        for item in array {
+            
+            
+            var created = false       //Tracks whether a node has been created from the item
+            
+            if let predecessor = root {
+                
+                var parent = predecessor
+                
+                while !created{
+                    
+                    if item <= parent.value {
+                        if parent.leftNode == nil {
+                            parent.leftNode = Node(value: item)
+                            created = true
+                        }
+                        parent = parent.leftNode!
+                        
+                    }else {
+                        if parent.rightNode == nil {
+                            parent.rightNode = Node(value: item)
+                            created = true
+                        }
+                        parent = parent.rightNode!
+                    }
+                }
+            }else{
+                root = Node(value: item)
+            }
+        }
+    }
+}
+
+
+let tree = Tree(array: [1 , 3 , 5 , 3 , 2 , 9 , 7 , 8])
+tree.description
