@@ -1246,7 +1246,7 @@ class Tree<T: Comparable>: CustomStringConvertible{
             
             while nodesAtCurrentLevel > 0 {
                 
-               let node = queue.removeFirst()
+                let node = queue.removeFirst()
                 output += "\(node.value)"
                 
                 if node.leftNode != nil { queue.append(node.leftNode!)}
@@ -1295,8 +1295,32 @@ class Tree<T: Comparable>: CustomStringConvertible{
             }
         }
     }
+    
+    
+    
+    func isBalanced() -> Bool {
+        func minDepth(from node:Node<T>?) -> Int {
+            guard let node = node else { return 0 }
+            
+            let returnValue = 1 + min(minDepth(from: node.leftNode), minDepth(from: node.rightNode))
+            print("Got min depth \(returnValue) for \(node.value)")
+            return returnValue
+        }
+        
+        
+        func maxDepth(from node: Node<T>?) -> Int {
+            guard let node = node else { return 0 }
+            let returnValue = 1 + max(maxDepth(from: node.leftNode), maxDepth(from: node.rightNode))
+            print("Got max depth \(returnValue) for \(node.value)")
+            return returnValue
+        }
+        
+        guard let root = root else { return true }
+        let difference = maxDepth(from: root) - minDepth(from: root)
+        return difference <= 1 }
 }
 
 
 let tree = Tree(array: [1 , 3 , 5 , 3 , 2 , 9 , 7 , 8])
 tree.description
+tree.isBalanced()
