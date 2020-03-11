@@ -89,7 +89,6 @@ extension Array where Element: Comparable{
         return sorted
     }
 }
-
 ["f", "a", "b"].insertionSort()
 [12, 5, 4, 9, 3, 2, 1] .insertionSort()
 [4, 7, 0, 5, 7, 9, 13, 56, 20].insertionSort()
@@ -116,6 +115,9 @@ func inArray(_ a1: [String], _ a2: [String]) -> [String] {
     return intersection.sorted()
 }
 inArray(["arp", "live", "strong"], ["lively", "alive", "harp", "sharp", "armstrong"])
+
+
+
 
 
 /*
@@ -148,6 +150,7 @@ persistence(for: 9)
 
 
 
+
 func nbDig(_ n: Int, _ d: Int) -> Int {
     // your code
     guard d >= 0 && d <= 9 else { return 0 }
@@ -163,6 +166,72 @@ func nbDig(_ n: Int, _ d: Int) -> Int {
     }
     return numbersWithD.joined().filter({$0 == Character(stringy)}).count
 }
-
 nbDig(8, 1)
 nbDig(15, 2)
+
+
+
+
+
+/*
+ Write a function that accepts two values and returns true if they are isomorphic. That is, each
+ part of the value must map to precisely one other, but that might be itself.
+ Tip: Strings A and B are considered isomorphic if you can replace all instances of each letter with another. For example, “tort” and “pump” are isomorphic, because you can replace both Ts with a P, the O with a U, and the R with an M. For integers you compare individual digits, so 1231 and 4564 are isomorphic numbers. For arrays you compare elements, so [1, 2, 1] and [4, 8, 4] are isomorphic.
+ 
+ Sample input and output
+ These are all isomorphic values:
+ • “clap” and “slap”
+ • “rum” and “mud”
+ • “pip” and “did”
+ • “carry” and “baddy”
+ • “cream” and “lapse”
+ • 123123 and 456456
+ • 3.14159 and 2.03048
+ • [1, 2, 1, 2, 3] and [4, 5, 4, 5, 6]
+ 
+ These are not isomorphic values:
+ • “carry” and “daddy” – the Rs have become D, but C has also become D.
+ • “did” and “cad” – the first D has become C, but the second has remained D.
+ • “maim” and “same” – the first M has become S, but the second has become E.
+ • “curry” and “flurry” – the strings have different lengths.
+ */
+
+func isomorphic<T>(first: T , second: T) -> Bool {
+    
+    func countOfElements<T>(input: T) -> [Int]{
+        var count = 0
+        let stringy = "\(input)".sorted()
+        var currentElement: Character = stringy.first!
+        var counts = [Int]()
+        
+        for char in stringy{
+            
+            if currentElement == char {
+                count += 1
+            }else{
+                counts.append(count)
+                currentElement = char
+                count = 1
+            }
+        }
+        counts.append(count)
+        
+        return counts
+    }
+    
+    guard "\(first)".count == "\(second)".count else { return false }
+    
+    return countOfElements(input: first).sorted() == countOfElements(input: second).sorted()
+}
+isomorphic(first: "clap", second: "slap")
+isomorphic(first: "rum", second: "mud")
+isomorphic(first: "pip", second: "did")
+isomorphic(first: "carry", second: "baddy")
+isomorphic(first: "cream", second: "lapse")
+isomorphic(first: "123123", second: "456456")
+isomorphic(first: "3.14159", second: "2.03048")
+isomorphic(first: "[1, 2, 1, 2, 3]", second: "[4, 5, 4, 5, 6]")
+isomorphic(first: "carry", second: "daddy")
+isomorphic(first: "did", second: "cad")
+isomorphic(first: "maim", second: "same")
+isomorphic(first: "curry", second: "flurry")
