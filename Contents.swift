@@ -135,7 +135,6 @@ func persistence(for num: Int) -> Int {
         let product = components.reduce(1) {$0 * Int($1)!}
         
         result = String(product)
-        print(result)
         
         count += 1
         
@@ -198,6 +197,8 @@ nbDig(15, 2)
 
 func isomorphic<T>(first: T , second: T) -> Bool {
     
+    guard "\(first)".count == "\(second)".count else { return false }
+    
     func countOfElements<T>(input: T) -> [Int]{
         var count = 0
         let stringy = "\(input)".sorted()
@@ -219,8 +220,6 @@ func isomorphic<T>(first: T , second: T) -> Bool {
         return counts
     }
     
-    guard "\(first)".count == "\(second)".count else { return false }
-    
     return countOfElements(input: first).sorted() == countOfElements(input: second).sorted()
 }
 isomorphic(first: "clap", second: "slap")
@@ -235,3 +234,58 @@ isomorphic(first: "carry", second: "daddy")
 isomorphic(first: "did", second: "cad")
 isomorphic(first: "maim", second: "same")
 isomorphic(first: "curry", second: "flurry")
+
+
+
+
+
+
+
+/*
+ Write a function that accepts a string containing the characters (, [, {, <, >, }, ], and ) in any arrangement and frequency. It should return true if the brackets are opened and closed in the correct order, and if all brackets are closed. Any other input should false.
+ 
+ Sample input and output
+ • The string “()” should return true.
+ • The string “([])” should return true.
+ • The string “([])(<{}>)” should return true.
+ • The string “([]{}<[{}]>)” should return true. • The string “” should return true.
+ • The string “}{” should return false.
+ • The string “([)]” should return false.
+ • The string “([)” should return false.
+ • The string “([” should return false.
+ • The string “[<<<{}>>]” should return false.
+ • The string “hello” should return false.
+ */
+
+func balancedBrackets(input: String) -> Bool {
+    let validBrackets = "(<{[]}>)"
+    let invalidCharacters = CharacterSet(charactersIn: validBrackets).inverted
+    
+    guard input.rangeOfCharacter(from: invalidCharacters) == nil else { return false}
+    
+    let brackets: [Character: Character] = ["(": ")" , "<" : ">" , "{" : "}" , "[" : "]"]
+    var usedBrackets = [Character]()
+    
+    for bracket in input {
+        
+        if brackets.keys.contains(bracket){
+            //Pushes bracket onto stack if it is an opening bracket
+            usedBrackets.append(bracket)
+        }else{
+            
+            //Checks the last opening bracket in the stack, if the current bracket is its closing bracket continue; else return false
+            if let previousBracket = usedBrackets.popLast() {
+                if brackets[previousBracket] != bracket {
+                    return false
+                }
+            }else {
+                //Return false when theres no opening bracket in the stack
+                return false
+            }
+        }
+    }
+    return usedBrackets.count == 0
+}
+balancedBrackets(input: "([])(<{}>)")
+balancedBrackets(input: "([])")
+balancedBrackets(input: "[<<<{}>>]")
