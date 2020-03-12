@@ -289,3 +289,43 @@ func balancedBrackets(input: String) -> Bool {
 balancedBrackets(input: "([])(<{}>)")
 balancedBrackets(input: "([])")
 balancedBrackets(input: "[<<<{}>>]")
+
+
+
+func playPass(_ s: String, _ n: Int) -> String {
+    // your code
+    
+    let alphabets = Array("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz").map(String.init)
+    let array = Array(s.lowercased()).map(String.init)
+    var new = [String]()
+    
+    for (_ ,character ) in array.enumerated() {
+        
+        if ("0"..."9") ~= character {
+            new.append("\(9 - Int("\(character)")!)".uppercased())
+            continue
+        }
+        
+        if alphabets.contains(character) {
+            for (index , letter ) in alphabets.enumerated(){
+                if letter == character{
+                    new.append("\(alphabets[index + n].uppercased())")
+                    break
+                }
+            }
+
+            continue
+        }
+        
+        new.append("\(character)")
+    }
+    
+    for (position , element) in new.enumerated(){
+        if position % 2 == 1 {
+            new.remove(at: position)
+            new.insert(element.lowercased(), at: position)
+        }
+    }
+
+    return new.reversed().joined()
+}
