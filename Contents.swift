@@ -325,6 +325,195 @@ func playPass(_ s: String, _ n: Int) -> String {
             new.insert(element.lowercased(), at: position)
         }
     }
-
+    
     return new.reversed().joined()
 }
+
+
+
+
+/*
+ Create an extension for arrays that sorts them using the quicksort algorithm.
+ */
+
+extension Array where Element: Comparable {
+    func quicksort() -> [Element] {
+        guard self.count > 1 else { return self}
+        let pivot = self.randomElement()!
+        
+        let lesserValues = self.filter { $0 < pivot }
+        let greaterValues = self.filter { $0 > pivot }
+        let equalValues = self.filter { $0 == pivot }
+        
+        return lesserValues.quicksort() + equalValues + greaterValues.quicksort()
+    }
+}
+[1 , 6 , 10 , 8,  4 , 5, 6].quicksort()
+
+
+
+
+/*
+ Create a function that detects whether either player has won in a game of Tic-Tac-Toe.
+ Tip: A tic-tac-toe board is 3x3, containing single letters that are either X, O, or empty. A win is three Xs or Os in a straight line.
+ */
+
+func tictoeWinner(board: [[String]]) -> Bool{
+    for i in 0..<3{
+        //Checks all rows
+        if board[i][0] != "" && board[i][0] == board[i][1] && board[i][0] == board[i][2] {
+            return true
+        }
+        //Checks all columns
+        if board[0][i] != "" && board[0][i] == board[1][i] && board[0][i] == board[2][i] {
+            return true
+        }
+        //Checks forward diagonal
+        if board[0][0] != "" && board[0][0] == board[1][1] && board[0][0] == board[2][2]{
+            return true
+        }
+        //checks backward diagonal
+        if board[0][2] != "" && board[0][2] == board[1][1] && board[0][2] == board[2][0]{
+            return true
+        }
+    }
+    
+    //After all checks and couldn't return
+    return false
+}
+tictoeWinner(board: [
+    ["X", "" , "O"]
+    , ["" , "X" , "O"]
+    , ["", "" , "X"]
+])
+
+
+
+
+
+/*
+ Write a function that returns an array of prime numbers from 2 up to but excluding N, taking
+ care to be as efficient as possible.
+ Tip: Calculating primes is easy. Calculating primes efficiently is not. Take care!
+ 
+ Sample input and output
+ • The code challenge61(upTo: 10) should return 2, 3, 5, 7.
+ • The code challenge61(upTo: 11) should return 2, 3, 5, 7; remember to exclude the upper
+ bound.
+ • The code challenge61(upTo: 12) should return 2, 3, 5, 7, 11.
+ */
+
+//My First solution
+func primeNumbers(upTo: Int) -> [Int]{
+    guard upTo > 2 else { return [2]}
+    var primes = [Int]()
+    
+    for number in 2..<upTo {
+        
+        if (2..<number).allSatisfy({number % $0 != 0}){
+            primes.append(number)
+        }
+    }
+    return primes
+}
+
+primeNumbers(upTo: 10)
+primeNumbers(upTo: 11)
+primeNumbers(upTo: 12)
+
+
+//My solution after trying to optimize
+func optimized(upTo: Int) -> [Int]{
+    guard upTo > 2 else { return [2]}
+    var primes = [Int]()
+    
+    for number in 2..<upTo {
+        
+        //Assumes all numbers are prime
+        var isPrime = true
+        
+        for value in 2..<number {
+            //Sets isPrime to false when a number that can divide the current number is found
+            if number % value == 0 {
+                isPrime = false
+                break
+            }
+        }
+        
+        
+        if isPrime {
+            primes.append(number)
+        }
+        
+    }
+    
+    return primes
+}
+optimized(upTo: 10)
+optimized(upTo: 11)
+optimized(upTo: 12)
+
+
+
+func challenge61(upTo max: Int) -> [Int] {
+    guard max > 1 else { return [] }
+    var sieve = [Bool](repeating: true, count: max)
+    sieve[0] = false
+    sieve[1] = false
+    for number in 2 ..< max {
+        if sieve[number] == true {
+            for multiple in stride(from: number * number, to: sieve.count, by: number) {
+                sieve[multiple] = false }
+        }
+        
+    }
+    return sieve.enumerated().compactMap { $1 == true ? $0 : nil }
+}
+challenge61(upTo: 10)
+challenge61(upTo: 11)
+challenge61(upTo: 12)
+
+
+class Solution {
+  static func twosum(numbers: [Double], target: Double) -> [Int] {
+    
+    var indices = [Int]()
+    
+    for (index , value ) in numbers.enumerated(){
+       
+//        guard index != numbers.endIndex - 1 else { return indices}
+        
+        for position in (index + 1)..<numbers.count{
+            if value + numbers[position] == target {
+                indices.append(index )
+                indices.append(position)
+            }
+        }
+        
+    }
+    return indices
+  }
+}
+
+Solution.twosum(numbers: [1, 2, 3], target: 4)
+Solution.twosum(numbers: [1,54,24,35], target: 59)
+
+
+func duplicateEncode(_ word: String) -> String {
+    
+    var characterDictionary = [Character: Int]()
+    
+    for character in word {
+        characterDictionary[character , default: 0] += 1
+    }
+    print(characterDictionary)
+    
+    let singles = String(characterDictionary.filter {$0.value == 1}.keys)
+    let multiples = String(characterDictionary.filter { $0.value > 1 }.keys)
+    
+    print(singles)
+    
+    return ""
+
+}
+duplicateEncode("emmanuella")
