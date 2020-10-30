@@ -261,7 +261,7 @@ func balancedBrackets(input: String) -> Bool {
     let validBrackets = "(<{[]}>)"
     let invalidCharacters = CharacterSet(charactersIn: validBrackets).inverted
     
-    guard input.rangeOfCharacter(from: invalidCharacters) == nil else { return false}
+    guard input.rangeOfCharacter(from: invalidCharacters) == nil else { return false }
     
     let brackets: [Character: Character] = ["(": ")" , "<" : ">" , "{" : "}" , "[" : "]"]
     var usedBrackets = [Character]()
@@ -293,8 +293,6 @@ balancedBrackets(input: "[<<<{}>>]")
 
 
 func playPass(_ s: String, _ n: Int) -> String {
-    // your code
-    
     let alphabets = Array("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz").map(String.init)
     let array = Array(s.lowercased()).map(String.init)
     var new = [String]()
@@ -325,7 +323,6 @@ func playPass(_ s: String, _ n: Int) -> String {
             new.insert(element.lowercased(), at: position)
         }
     }
-    
     return new.reversed().joined()
 }
 
@@ -389,8 +386,6 @@ tictoeWinner(board: [
 
 
 
-
-
 /*
  Write a function that returns an array of prime numbers from 2 up to but excluding N, taking
  care to be as efficient as possible.
@@ -440,7 +435,6 @@ func optimized(upTo: Int) -> [Int]{
             }
         }
         
-        
         if isPrime {
             primes.append(number)
         }
@@ -474,46 +468,268 @@ challenge61(upTo: 11)
 challenge61(upTo: 12)
 
 
+
 class Solution {
-  static func twosum(numbers: [Double], target: Double) -> [Int] {
-    
-    var indices = [Int]()
-    
-    for (index , value ) in numbers.enumerated(){
-       
-//        guard index != numbers.endIndex - 1 else { return indices}
+    static func twosum(numbers: [Double], target: Double) -> [Int] {
         
-        for position in (index + 1)..<numbers.count{
-            if value + numbers[position] == target {
-                indices.append(index )
-                indices.append(position)
+        var indices = [Int]()
+        
+        for (index , value ) in numbers.enumerated(){
+            
+            //        guard index != numbers.endIndex - 1 else { return indices}
+            
+            for position in (index + 1)..<numbers.count{
+                if value + numbers[position] == target {
+                    indices.append(index )
+                    indices.append(position)
+                }
             }
+            
         }
-        
+        return indices
     }
-    return indices
-  }
 }
 
 Solution.twosum(numbers: [1, 2, 3], target: 4)
 Solution.twosum(numbers: [1,54,24,35], target: 59)
 
 
+
 func duplicateEncode(_ word: String) -> String {
+    var copy = [String]()
     
     var characterDictionary = [Character: Int]()
     
-    for character in word {
+    for character in word.lowercased() {
         characterDictionary[character , default: 0] += 1
     }
-    print(characterDictionary)
     
-    let singles = String(characterDictionary.filter {$0.value == 1}.keys)
-    let multiples = String(characterDictionary.filter { $0.value > 1 }.keys)
+    let singles = String(characterDictionary.filter {$0.value == 1}.keys).lowercased()
     
-    print(singles)
-    
-    return ""
-
+    for letter in word.lowercased() {
+        if singles.contains(letter){
+            copy.append("(")
+            continue
+        }
+        copy.append(")")
+    }
+    return copy.joined()
 }
-duplicateEncode("emmanuella")
+duplicateEncode("Success")
+
+
+
+func dig_pow(for number: Int , using power: Int) -> Int {
+    var power = power
+    let digits = Array("\(number)")
+    var powered = [Double]()
+    
+    for digit in digits {
+        powered.append(pow(Double(String(digit))!, Double(power)))
+        power += 1
+    }
+    return powered.reduce(0, +).truncatingRemainder(dividingBy: Double(number)) == 0 ? Int(powered.reduce(0, +) / Double(number)) : -1
+}
+
+dig_pow(for: 89, using: 1)
+dig_pow(for: 92, using: 1)
+dig_pow(for: 695, using: 2)
+dig_pow(for: 46288, using: 3)
+
+
+
+func countDuplicates(_ s:String) -> Int {
+    var dictionary = [Character: Int]()
+    var count = 0
+    
+    for character in s.lowercased(){
+        dictionary[character , default: 0] += 1
+    }
+    
+    for (_ , value ) in dictionary where value >= 2{
+        count += 1
+    }
+    return count
+}
+countDuplicates("abcde")
+countDuplicates("aabbcde")
+countDuplicates("aabBcde")
+countDuplicates("indivisibility")
+countDuplicates("aA11")
+countDuplicates("ABBA")
+countDuplicates("Indivisibilities")
+
+
+func shiftedDiff(_ s1: String, _ s2: String) -> Int? {
+    let combined = (s2 + s2)
+    guard combined.contains(s1) else {return nil}
+    let left = combined.replacingOccurrences(of: s1, with: " ")
+    
+    var returnWord = ""
+    
+    for (_ , letter) in left.enumerated(){
+        if letter != " " {
+            returnWord += "\(letter)"
+            continue
+        }
+        break
+    }
+    return returnWord.count
+}
+
+
+
+func camelCase(_ str: String) -> String {
+    return str.capitalized.replacingOccurrences(of: " ", with: "")
+}
+camelCase("hello case")
+camelCase("camel case word")
+camelCase("")
+
+
+/*
+ An extension on Integers to tell if a number is prime
+ */
+extension Int {
+    func isPrime() -> Bool{
+        guard (2...) ~= self else { return false }
+        
+        for i in 2...((self / 2) + 1){
+            if self % i == 0 {
+                return false
+            }
+        }
+        return true
+    }
+}
+
+
+
+func gap(_ g: Int, _ m: Int, _ n: Int) -> (Int, Int)? {
+    guard g % 2 == 0 else {return nil}
+    var previous: Int?
+    
+    for i in m...n where i.isPrime() {
+        if let first = previous {
+            if i - first == g {
+                return (first , i)
+            }else{
+                previous = i
+            }
+        }else {
+            previous = i
+        }
+    }
+    return nil
+}
+
+
+
+func mix(_ s1: String, _ s2: String) -> String {
+    let keys = Set( s1 + s2)
+    
+    let firstString = s1.replacingOccurrences(of: " ", with: "")
+    let secondString = s2.replacingOccurrences(of: " ", with: "")
+    
+    var s1Dict = [Character : Int]()
+    var s2Dict = [Character : Int]()
+    
+    for letter in firstString { s1Dict[letter , default: 0] += 1 }
+    for letter in secondString { s2Dict[letter , default: 0] += 1 }
+    
+    var returnString = [String]()
+    
+    for key in keys{
+        guard key.isLetter else {continue}
+        guard s1Dict[key , default: 0] > 1 || s2Dict[key , default: 0] > 1 else {continue}
+        
+        if s1Dict[key , default: 0] > s2Dict[key , default: 0]{
+            let count = s1Dict[key]
+            returnString.append("1:\(String(repeating: key, count: count!))")
+        }
+        
+        if s1Dict[key , default: 0] < s2Dict[key , default: 0]{
+            let count = s2Dict[key]
+            returnString.append("2:\(String(repeating: key, count: count!))")
+        }
+        
+        if s1Dict[key , default: 0] == s2Dict[key , default: 0]{
+            let count = s2Dict[key]
+            returnString.append("E:\(String(repeating: key, count: count!))")
+        }
+    }
+    let sorted = returnString.sorted {
+        if $0.count != $1.count {
+            return $0.count > $1.count
+        }
+        
+        if $0.count == $1.count {
+            return $0.first! < $1.first!
+        }
+        
+        if $0.first! == $1.first! {
+            return $0.last! < $1.last!
+        }
+        
+        return $0 < $1
+    }
+    return sorted.joined(separator: "/")
+}
+
+
+
+extension BinaryInteger {
+    func clamp() -> Self {
+        return min(max(self, 0), 255)
+    }
+}
+
+
+/*
+ Returns rgb format
+ */
+func rgb(_ r: Int, _ g: Int, _ b: Int) -> String {
+    return String(format: "%02X%02X%02X", r.clamp() , g.clamp() , b.clamp())
+}
+
+
+/*
+ Divisors of 42 are : 1, 2, 3, 6, 7, 14, 21, 42. These divisors squared are: 1, 4, 9, 36, 49, 196, 441, 1764. The sum of the squared divisors is 2500 which is 50 * 50, a square!
+
+ Given two integers m, n (1 <= m <= n) we want to find all integers between m and n whose sum of squared divisors is itself a square. 42 is such a number.
+ */
+func sumOfSquaredDivisors(of num: Int) -> Int {
+    guard num > 1 else { return 1 }
+    var result = (num * num )
+    
+    for i in 1 ... (num / 2 ) {
+        if num % i == 0 {
+            result += (i * i)
+        }
+    }
+    return result
+}
+
+func isSquare(_ num: Int) -> Bool {
+    let root = sqrt(Double(num)).rounded()
+    return Int(pow(root, 2)) == num
+}
+
+
+func listSquared(_ m: Int, _ n: Int) -> [(Int, Int)] {
+    var result: [(Int, Int)] = []
+    for num in m...n {
+        let sum = sumOfSquaredDivisors(of: num)
+        if isSquare(sum){
+            result.append((num, sum))
+        }
+    }
+    return result
+}
+
+
+
+
+
+
+
